@@ -64,13 +64,53 @@ const NavBar = ({ isLoggedIn, onLogout }) => {
           <>
             <Button
               component={Link}
+              to="/private-profile"
+              sx={{
+                color: '#fff',
+                '&:hover': { backgroundColor: '#333' },
+              }}
+            >
+              Private Profile
+            </Button>
+            <Button
+              component={Link}
+              to="/private-matches"
+              sx={{
+                color: '#fff',
+                '&:hover': { backgroundColor: '#333' },
+              }}
+            >
+              Private Matches
+            </Button>
+            <Button
+              component={Link}
+              to="/my-applications"
+              sx={{
+                color: '#fff',
+                '&:hover': { backgroundColor: '#333' },
+              }}
+            >
+              My Applications
+            </Button>
+            <Button
+              component={Link}
+              to="/provider/applications"
+              sx={{
+                color: '#fff',
+                '&:hover': { backgroundColor: '#333' },
+              }}
+            >
+              Provider
+            </Button>
+            <Button
+              component={Link}
               to="/recommendations"
               sx={{
                 color: '#fff',
                 '&:hover': { backgroundColor: '#333' },
               }}
             >
-              Recommendations
+              Legacy Recs
             </Button>
             <Button
               component={Link}

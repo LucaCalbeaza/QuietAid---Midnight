@@ -83,6 +83,15 @@ const userSchema = new mongoose.Schema({
     state: { type: String, default: '', trim: true },
     city: { type: String, default: '', trim: true },
   },
+  /**
+   * Account role for QuietAid demo authorization.
+   * NOT a private eligibility field — do not store QuietAid private criteria here.
+   */
+  role: {
+    type: String,
+    enum: ['student', 'provider'],
+    default: 'student',
+  },
   createdAt: {
     type: Date,
     default: Date.now,

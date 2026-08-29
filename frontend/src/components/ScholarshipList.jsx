@@ -55,14 +55,8 @@ const ScholarshipList = () => {
       {scholarships.map((scholarship) => (
         <Grid item xs={12} sm={6} md={4} key={scholarship._id}>
           <ScholarshipCard
-            title={scholarship.title}
-            description={scholarship.description}
-            amount={scholarship.amount}
-            deadline={scholarship.deadline}
-            eligibility={scholarship.eligibility}
-            link={scholarship.link}
-            applyLink={scholarship.applyLink}
-            sentiment={scholarship.sentiment}
+            scholarship={scholarship}
+            detailLink={`/scholarships/${scholarship._id}`}
           />
         </Grid>
       ))}

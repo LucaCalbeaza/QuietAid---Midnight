@@ -8,6 +8,8 @@ const scholarshipRoutes = require('./routes/scholarship');
 const userRoutes = require('./routes/user');
 const sentimentRoutes = require('./routes/sentiment');
 const recommendationsRoutes = require('./routes/recommendations');
+const privateApplicationsRoutes = require('./routes/privateApplications');
+const providerRoutes = require('./routes/provider');
 const isAuth = require('./middleware/auth');
 
 const app = express();
@@ -39,6 +41,8 @@ app.use('/api/scholarships', scholarshipRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/sentiment', sentimentRoutes);
+app.use('/api/private-applications', privateApplicationsRoutes);
+app.use('/api/provider', providerRoutes);
 
 app.get('/api/protected', isAuth, (req, res) => {
   res.json({ message: 'Access granted to protected route!' });

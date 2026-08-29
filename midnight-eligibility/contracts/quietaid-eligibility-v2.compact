@@ -1,0 +1,52 @@
+/**
+ * QuietAid V2 — eligibility + mock trusted income credential.
+ *
+ * Mock issuer registers persistentCommit(income, salt) into approvedCommitments.
+ * Student proves privately that their income+salt reconstructs an approved commitment
+ * AND that income/enrollment satisfy sealed scholarship rules.
+ *
+ * NOT a real university database — see docs/PRIVACY_MODEL.md NOT PROVEN.
+ */
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+export sealed ledger requiresEnrollment: Boolean;
+export sealed ledger maximumIncome: Uint<0..1000001>;
+export ledger verifiedCount: Counter;
+export ledger approvedCommitments: Set<Bytes<32>>;
+
+witness enrolled(): Boolean;
+witness householdIncome(): Uint<0..1000001>;
+witness incomeCredentialSalt(): Bytes<32>;
+
+constructor(reqEnroll: Boolean, maxInc: Uint<0..1000001>) {
+  requiresEnrollment = disclose(reqEnroll);
+  maximumIncome = disclose(maxInc);
+}
+
+/** Mock issuer / admin registers an approved credential commitment (public). */
+export circuit registerIncomeCredential(commitment: Bytes<32>): [] {
+  approvedCommitments.insert(disclose(commitment));
+}
+
+/**
+ * Prove: approved mock credential for income + enrollment/income rules.
+ * Does not disclose income, enrollment, or salt.
+ */
+export circuit verifyEligibilityWithCredential(): [] {
+  const isEnrolled = enrolled();
+  const income = householdIncome();
+  const salt = incomeCredentialSalt();
+
+  assert(!requiresEnrollment || isEnrolled, "enrollment requirement not met");
+  assert(income <= maximumIncome, "income exceeds scholarship maximum");
+
+  const commitment = persistentCommit<Uint<0..1000001>>(income, salt);
+  assert(
+    approvedCommitments.member(commitment),
+    "income credential not approved by mock issuer"
+  );
+
+  verifiedCount.increment(1);
+}

@@ -183,14 +183,18 @@ const scholarships = [
     country: 'United States',
     minGPA: 3.5,
     eligibility:
-      'Full-time undergraduates with a cumulative GPA of 3.5 or higher.',
+      'Full-time undergraduates with a cumulative GPA of 3.5 or higher; ' +
+      'household income at or below $75,000 for Midnight V1 private verification.',
     publicRequirements: [
       'Full-time enrollment (12+ credit hours) at an accredited U.S. institution',
+      'Household income at or below $75,000 (proven privately via Midnight)',
       'Official transcript showing cumulative GPA',
       'Personal essay on an academic project you are proud of',
     ],
+    midnightEnabled: true,
+    midnightRuleVersion: 1,
     privateEligibility: {
-      maxHouseholdIncome: null,
+      maxHouseholdIncome: 75000,
       eligibleStates: [],
       enrollmentStatus: 'fullTime',
       minGPA: 3.5,

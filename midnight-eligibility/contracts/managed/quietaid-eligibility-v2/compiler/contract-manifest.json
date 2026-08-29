@@ -1,0 +1,78 @@
+{
+  "manifest-version": "1",
+  "compiler-version": "0.34.0",
+  "language-version": "0.26.0",
+  "runtime-version": "0.19.0",
+  "compiler": {
+    "type": "directory",
+    "contract-info.json": {
+      "type": "file",
+      "size": 1884,
+      "hash": "2b69715d4f8c3cc3257f45b1bfe7a8ad19c997b90af4b7c6f32b3798c7ff8af1"
+    }
+  },
+  "contract": {
+    "type": "directory",
+    "index.d.ts": {
+      "type": "file",
+      "size": 2495,
+      "hash": "68081a314150f01808db4a8381b8eb6f884088793de16512f3af0c145a5c1085"
+    },
+    "index.js": {
+      "type": "file",
+      "size": 38474,
+      "hash": "5127e16cba5157e942ef8cec8c8f21d7f28188e4d84fc5f2cc0f35327678232c"
+    },
+    "index.js.map": {
+      "type": "file",
+      "size": 1419,
+      "hash": "cfd585ad7fad007b928cebb321d1833e004c48eee104ae57ce9e832a5642169e"
+    }
+  },
+  "zkir": {
+    "type": "directory",
+    "registerIncomeCredential.bzkir": {
+      "type": "file",
+      "size": 102,
+      "hash": "8db59abda7ea8ccb3fb15d2b448d79f3effa251a491b2863cf8cb722ce647192"
+    },
+    "registerIncomeCredential.zkir": {
+      "type": "file",
+      "size": 1462,
+      "hash": "eadde5529c72d71cc669be2aa9ecc80bd184b5d5ff7e5c7732a132617a9499a1"
+    },
+    "verifyEligibilityWithCredential.bzkir": {
+      "type": "file",
+      "size": 257,
+      "hash": "0d87e243fc595abcf09859af312fd6562671f732c25a1d3ba8acc2c8692a3fbe"
+    },
+    "verifyEligibilityWithCredential.zkir": {
+      "type": "file",
+      "size": 4297,
+      "hash": "d28ec6a35fa3699fa89de4ee2bae95cc5500c04a308b5cda6ae40ba9ac2cd9f4"
+    }
+  },
+  "keys": {
+    "type": "directory",
+    "registerIncomeCredential.prover": {
+      "type": "file",
+      "size": 146734,
+      "hash": "b25db12eca9bdcd869e74025cefc7a4816b7eb5d68a7164d484a2be5754839c0"
+    },
+    "registerIncomeCredential.verifier": {
+      "type": "file",
+      "size": 1351,
+      "hash": "c3bc697670c99ba3a10fb3cb00949a3048aec11063c07f64dc8ec980d1605959"
+    },
+    "verifyEligibilityWithCredential.prover": {
+      "type": "file",
+      "size": 2817654,
+      "hash": "21473f61f160c496b80ef8e7411cc3979c75cebc0b7d257c22b0abbb8b105ea9"
+    },
+    "verifyEligibilityWithCredential.verifier": {
+      "type": "file",
+      "size": 2119,
+      "hash": "561447ea28a6ae87ebef2b941aa43df24e1e2aabc3f6e2242f4702da5da22c2f"
+    }
+  }
+}

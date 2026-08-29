@@ -14,3 +14,9 @@
 
 frontend/.env
 scholarship-finder-backend/.env
+
+# Local Compact toolchain (downloaded binaries)
+.tools/
+
+# Compact compiler output can be large; keep contract source, commit managed for reproducibility of hackathon demo
+# midnight-eligibility/contracts/managed/ is committed for demo reliability

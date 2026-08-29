@@ -81,6 +81,12 @@ const RecommendationsPage = ({ isLoggedIn }) => {
       <Typography variant="h4" gutterBottom>
         Scholarships Tailored for You
       </Typography>
+      <Alert severity="warning" sx={{ mb: 2 }}>
+        LEGACY path: recommendations are scored on the server using your stored
+        account profile. For QuietAid privacy matching, use{' '}
+        <strong>Private Profile</strong> and <strong>Private Matches</strong>{' '}
+        instead — those keep eligibility data in the browser.
+      </Alert>
 
       <Box sx={{ mb: 3 }}>
         <TextField

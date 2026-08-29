@@ -80,6 +80,10 @@ const scholarshipSchema = new Schema(
       requiresDisability: { type: Boolean, default: false },
       requiresHousingInsecurity: { type: Boolean, default: false },
     },
+    // QuietAid Midnight: public verification config (not private student values)
+    midnightEnabled: { type: Boolean, default: false },
+    midnightRuleVersion: { type: Number, default: 0 },
+    midnightContractAddress: { type: String, default: '' },
     sentiment: {
       vader: {
         pos: { type: Number, default: 0 },
