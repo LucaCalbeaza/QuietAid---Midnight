@@ -1,3 +1,19 @@
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface-2: #162032;
+  --border: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #c9a227;
+  --accent-hover: #e0b93a;
+  --accent-text: #0f172a;
+  --danger: #f87171;
+  --radius: 8px;
+  --font-serif: 'Merriweather', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
 *,
 *::before,
 *::after {
@@ -6,20 +22,44 @@
 
 body {
   margin: 0;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: #121212; 
-  color: #f5f5f5; 
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  color: var(--text);
+  font-weight: 700;
+}
+
 a {
   text-decoration: none;
-  color: inherit;
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-hover);
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.app-status {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
 }

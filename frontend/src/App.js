@@ -80,7 +80,7 @@ function App() {
   };
 
   if (checkingAuth) {
-    return <div>Loading...</div>;
+    return <div className="app-status">Loading...</div>;
   }
 
   return (
@@ -209,7 +209,7 @@ function App() {
               </RequireRole>
             }
           />
-          <Route path="*" element={<div>404 - Page Not Found</div>} />
+          <Route path="*" element={<div className="app-status">404 - Page Not Found</div>} />
         </Routes>
       </Router>
     </PrivateEligibilityProvider>

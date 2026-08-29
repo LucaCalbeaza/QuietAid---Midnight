@@ -3,8 +3,11 @@ import { AppBar, Toolbar, Button, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
 const navBtnSx = {
-  color: '#fff',
-  '&:hover': { backgroundColor: '#333' },
+  color: '#F8FAFC',
+  '&:hover': {
+    backgroundColor: 'rgba(201, 162, 39, 0.12)',
+    color: '#E0B93A',
+  },
 };
 
 /**
@@ -25,8 +28,8 @@ const NavBar = ({ isLoggedIn, role, onLogout }) => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#212121',
-        color: '#fff',
+        backgroundColor: '#162032',
+        color: '#F8FAFC',
       }}
     >
       <Toolbar>

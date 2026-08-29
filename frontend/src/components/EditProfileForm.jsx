@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../utils/axiosInstance';
+import '../styles/form.css';
 
 const casteOptions = ['General', 'OBC', 'SC', 'ST', 'EWS', 'Other'];
 const genderOptions = ['Male', 'Female', 'Other'];
