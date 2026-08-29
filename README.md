@@ -38,9 +38,7 @@ demo contrast; they are marked **LEGACY** and are not the QuietAid apply path.
 
 Scholarship matching needs sensitive profile fields (GPA, household income, U.S.
 state, enrollment status, first-generation status, disability status, housing
-insecurity). QuietAid proves eligibility **without** exposing those attributes
-to providers — selective disclosure and zero-knowledge proofs instead of sending
-a full private profile to the scholarship provider.
+insecurity). The internal verification workflow was refined to ensure these sensitive attributes remain protected throughout the process. QuietAid proves eligibility **without** exposing those attributes to providers — selective disclosure and zero-knowledge proofs instead of sending a full private profile to the scholarship provider.
 
 ---
 
