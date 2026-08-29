@@ -326,7 +326,7 @@ npm test
   illustrative examples for the demo, not real opportunities, and contain no real
   student information.
 - A ZK proof does **not** make self-entered data true — mock credentials simulate
-  issuer trust. See [`docs/PRIVACY_MODEL.md`](docs/PRIVACY_MODEL.md).
+  Issuer trust. See [`docs/PRIVACY_MODEL.md`](docs/PRIVACY_MODEL.md).
 - Legacy server matching: `scholarship-finder-backend/routes/recommendations.js`.
 - QuietAid docs: [`docs/SETUP.md`](docs/SETUP.md),
   [`docs/QUIETAID_IMPLEMENTATION_PLAN.md`](docs/QUIETAID_IMPLEMENTATION_PLAN.md),
