@@ -53,6 +53,33 @@ const scholarshipSchema = new Schema(
     },
     amount: { type: String, default: '' },
     eligibility: { type: String, default: '' },
+
+    // --- QuietAid additions (all optional, non-breaking) ---
+    // Organisation that awards the scholarship (distinct from `source`, which is
+    // provenance / which importer created the record).
+    provider: { type: String, default: '' },
+    // Marks records created by the QuietAid demo seed so the UI / graders can
+    // clearly tell fictional data apart from anything scraped.
+    isDemoData: { type: Boolean, default: false },
+    demoDisclaimer: { type: String, default: '' },
+    // Human-readable public eligibility rules shown to every visitor.
+    publicRequirements: { type: [String], default: [] },
+    // Structured private eligibility criteria. In QuietAid these are the values a
+    // student proves privately (e.g. via a Midnight ZK circuit) rather than
+    // disclosing outright. Kept optional so scraped records simply omit it.
+    privateEligibility: {
+      maxHouseholdIncome: { type: Number, default: null },
+      eligibleStates: { type: [String], default: [] },
+      enrollmentStatus: {
+        type: String,
+        enum: ['fullTime', 'partTime', 'any'],
+        default: 'any',
+      },
+      minGPA: { type: Number, default: null },
+      requiresFirstGeneration: { type: Boolean, default: false },
+      requiresDisability: { type: Boolean, default: false },
+      requiresHousingInsecurity: { type: Boolean, default: false },
+    },
     sentiment: {
       vader: {
         pos: { type: Number, default: 0 },
