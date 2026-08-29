@@ -11,3 +11,6 @@
 
 **/build/
 **/dist/
+
+frontend/.env
+scholarship-finder-backend/.env
