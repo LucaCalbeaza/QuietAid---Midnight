@@ -6,7 +6,6 @@ import {
   CardActions,
   Typography,
   Button,
-  Chip,
   Box,
   LinearProgress,
 } from '@mui/material';
@@ -81,9 +80,20 @@ const ScholarshipCard = (props) => {
         )}
 
         {amount && (
-          <Box sx={{ mb: 1 }}>
-            <Chip label={`Amount: ${amount}`} size="small" />
-          </Box>
+          <Typography
+            variant="body2"
+            sx={{
+              mb: 1,
+              display: 'inline-block',
+              px: 1.25,
+              py: 0.5,
+              borderRadius: 1,
+              bgcolor: 'action.hover',
+              fontWeight: 500,
+            }}
+          >
+            Amount: {amount}
+          </Typography>
         )}
 
         {deadline && (
