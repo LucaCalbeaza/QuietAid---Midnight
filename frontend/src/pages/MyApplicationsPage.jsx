@@ -94,8 +94,7 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
           <Box
             key={app.publicApplicationId}
             className="app-list-card"
-            sx={{ border: 'none', p: 0, mb: 0 }}
-          >
+            >
             <Typography variant="h6">{app.publicApplicationId}</Typography>
             <Typography>Pseudonym: {app.pseudonym}</Typography>
             <Typography>{app.scholarshipTitle}</Typography>
@@ -147,7 +146,7 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
             <Button
               component={RouterLink}
               to={`/applications/${app.publicApplicationId}`}
-              sx={{ mt: 1 }}
+              sx={{ mt: 'auto', pt: 1 }}
             >
               Details
             </Button>

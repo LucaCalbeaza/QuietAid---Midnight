@@ -68,7 +68,6 @@ const ProviderApplicationsPage = ({ isLoggedIn }) => {
             <Box
               key={app.publicApplicationId}
               className="app-list-card"
-              sx={{ border: 'none', p: 0 }}
             >
               <Typography variant="h6">
                 Application: {app.publicApplicationId}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import {
   Alert,
+  Box,
   Button,
   CircularProgress,
   Container,
@@ -50,27 +51,36 @@ const ApplicationDetailPage = ({ isLoggedIn }) => {
   }
 
   return (
-    <Container maxWidth="sm" sx={{ my: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Private application
-      </Typography>
-      <Typography>Application: {app.publicApplicationId}</Typography>
-      <Typography>Applicant: {app.pseudonym}</Typography>
-      <Typography>Scholarship: {app.scholarshipTitle}</Typography>
-      <Typography>
-        Eligibility: {app.eligibilityVerified ? 'Verified' : 'Not verified'}
-      </Typography>
-      <Typography>
-        Midnight: {app.midnight?.proofStatus || '—'} (
-        {app.midnight?.executionId || app.midnight?.transactionId || 'n/a'})
-      </Typography>
-      <Typography>
-        Identity: {app.identityDisclosure?.status || 'HIDDEN'}
-      </Typography>
-      <Button component={RouterLink} to="/my-applications" sx={{ mt: 2 }}>
-        My applications
-      </Button>
-    </Container>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: { xs: 3, sm: 6 },
+        px: 2,
+      }}
+    >
+      <Box className="form-container" sx={{ maxWidth: 620 }}>
+        <Typography variant="h4" gutterBottom>
+          Private application
+        </Typography>
+        <Typography>Application: {app.publicApplicationId}</Typography>
+        <Typography>Applicant: {app.pseudonym}</Typography>
+        <Typography>Scholarship: {app.scholarshipTitle}</Typography>
+        <Typography>
+          Eligibility: {app.eligibilityVerified ? 'Verified' : 'Not verified'}
+        </Typography>
+        <Typography>
+          Midnight: {app.midnight?.proofStatus || '—'} (
+          {app.midnight?.executionId || app.midnight?.transactionId || 'n/a'})
+        </Typography>
+        <Typography>
+          Identity: {app.identityDisclosure?.status || 'HIDDEN'}
+        </Typography>
+        <Button component={RouterLink} to="/my-applications" sx={{ mt: 2 }}>
+          My applications
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

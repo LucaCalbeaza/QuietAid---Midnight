@@ -72,62 +72,71 @@ const ProviderApplicationDetailPage = ({ isLoggedIn }) => {
   const identity = app.identity || {};
 
   return (
-    <Container maxWidth="sm" sx={{ my: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Application {app.publicApplicationId}
-      </Typography>
-      {message && (
-        <Alert severity="success" sx={{ mb: 2 }}>
-          {message}
-        </Alert>
-      )}
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: { xs: 3, sm: 6 },
+        px: 2,
+      }}
+    >
+      <Box className="form-container" sx={{ maxWidth: 620 }}>
+        <Typography variant="h4" gutterBottom>
+          Application {app.publicApplicationId}
+        </Typography>
+        {message && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {message}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-      <Typography>Applicant: {app.pseudonym}</Typography>
-      <Typography>Scholarship: {app.scholarshipTitle}</Typography>
-      <Typography>
-        Eligibility: {app.eligibilityVerified ? 'VERIFIED' : 'NOT VERIFIED'}
-      </Typography>
-      <Typography>
-        Midnight proof: {app.midnight?.proofStatus || 'UNKNOWN'}
-      </Typography>
-      <Typography sx={{ mt: 2 }}>
-        Identity: {identity.status || 'HIDDEN'}
-      </Typography>
-      {identity.name && <Typography>Name: {identity.name}</Typography>}
-      {identity.email && <Typography>Email: {identity.email}</Typography>}
-      {identity.address && <Typography>Address: {identity.address}</Typography>}
+        <Typography>Applicant: {app.pseudonym}</Typography>
+        <Typography>Scholarship: {app.scholarshipTitle}</Typography>
+        <Typography>
+          Eligibility: {app.eligibilityVerified ? 'VERIFIED' : 'NOT VERIFIED'}
+        </Typography>
+        <Typography>
+          Midnight proof: {app.midnight?.proofStatus || 'UNKNOWN'}
+        </Typography>
+        <Typography sx={{ mt: 2 }}>
+          Identity: {identity.status || 'HIDDEN'}
+        </Typography>
+        {identity.name && <Typography>Name: {identity.name}</Typography>}
+        {identity.email && <Typography>Email: {identity.email}</Typography>}
+        {identity.address && <Typography>Address: {identity.address}</Typography>}
 
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="subtitle1">Sensitive information</Typography>
-        <Typography>
-          Household income: {app.sensitiveInformation?.householdIncome}
-        </Typography>
-        <Typography>GPA: {app.sensitiveInformation?.gpa}</Typography>
-        <Typography>
-          Disability/accessibility: {app.sensitiveInformation?.disability}
-        </Typography>
-        <Typography>
-          Housing circumstances: {app.sensitiveInformation?.housing}
-        </Typography>
-        <Typography>
-          Address: {app.sensitiveInformation?.addressLabel}
-        </Typography>
+        <Box sx={{ mt: 2 }}>
+          <Typography variant="subtitle1">Sensitive information</Typography>
+          <Typography>
+            Household income: {app.sensitiveInformation?.householdIncome}
+          </Typography>
+          <Typography>GPA: {app.sensitiveInformation?.gpa}</Typography>
+          <Typography>
+            Disability/accessibility: {app.sensitiveInformation?.disability}
+          </Typography>
+          <Typography>
+            Housing circumstances: {app.sensitiveInformation?.housing}
+          </Typography>
+          <Typography>
+            Address: {app.sensitiveInformation?.addressLabel}
+          </Typography>
+        </Box>
+
+        <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
+          <Button variant="contained" onClick={requestContact}>
+            Request Contact
+          </Button>
+          <Button component={RouterLink} to="/provider/applications">
+            Back
+          </Button>
+        </Box>
       </Box>
-
-      <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
-        <Button variant="contained" onClick={requestContact}>
-          Request Contact
-        </Button>
-        <Button component={RouterLink} to="/provider/applications">
-          Back
-        </Button>
-      </Box>
-    </Container>
+    </Box>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card,
-  Grid,
   Typography,
   Button,
   CircularProgress,
@@ -81,10 +80,14 @@ const UserDashboard = () => {
   } = userData;
 
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card sx={{ padding: 3 }}>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <Card
+        sx={{
+          padding: 3,
+          width: '100%',
+          maxWidth: 900,
+        }}
+      >
             <Typography variant="h4" gutterBottom>
               Welcome, {firstName || 'User'}!
             </Typography>
@@ -162,8 +165,6 @@ const UserDashboard = () => {
               Edit Profile
             </Button>
           </Card>
-        </Grid>
-      </Grid>
     </div>
   );
 };
