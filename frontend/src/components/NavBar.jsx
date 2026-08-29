@@ -2,8 +2,19 @@ import React from 'react';
 import { AppBar, Toolbar, Button, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
-const NavBar = ({ isLoggedIn, onLogout }) => {
+const navBtnSx = {
+  color: '#fff',
+  '&:hover': { backgroundColor: '#333' },
+};
+
+/**
+ * Role-aware navigation.
+ * Students never see provider tabs; providers never see student-only tabs.
+ */
+const NavBar = ({ isLoggedIn, role, onLogout }) => {
   const navigate = useNavigate();
+  const isStudent = isLoggedIn && role === 'student';
+  const isProvider = isLoggedIn && role === 'provider';
 
   const handleLogout = async () => {
     onLogout();
@@ -14,8 +25,8 @@ const NavBar = ({ isLoggedIn, onLogout }) => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#212121', // dark gray background
-        color: '#fff', // white text color for navbar
+        backgroundColor: '#212121',
+        color: '#fff',
       }}
     >
       <Toolbar>
@@ -23,13 +34,7 @@ const NavBar = ({ isLoggedIn, onLogout }) => {
           <Button
             component={Link}
             to="/scholarships"
-            sx={{
-              color: '#fff',
-              fontWeight: 'bold',
-              '&:hover': {
-                backgroundColor: '#333',
-              },
-            }}
+            sx={{ ...navBtnSx, fontWeight: 'bold' }}
           >
             Home
           </Button>
@@ -37,101 +42,42 @@ const NavBar = ({ isLoggedIn, onLogout }) => {
 
         {!isLoggedIn && (
           <>
-            <Button
-              component={Link}
-              to="/login"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/login" sx={navBtnSx}>
               Login
             </Button>
-            <Button
-              component={Link}
-              to="/register"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/register" sx={navBtnSx}>
               Register
             </Button>
           </>
         )}
 
-        {isLoggedIn && (
+        {isStudent && (
           <>
-            <Button
-              component={Link}
-              to="/private-profile"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/private-profile" sx={navBtnSx}>
               Private Profile
             </Button>
-            <Button
-              component={Link}
-              to="/private-matches"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/private-matches" sx={navBtnSx}>
               Private Matches
             </Button>
-            <Button
-              component={Link}
-              to="/my-applications"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/my-applications" sx={navBtnSx}>
               My Applications
             </Button>
-            <Button
-              component={Link}
-              to="/provider/applications"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
-              Provider
-            </Button>
-            <Button
-              component={Link}
-              to="/recommendations"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
-              Legacy Recs
-            </Button>
-            <Button
-              component={Link}
-              to="/dashboard"
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
+            <Button component={Link} to="/dashboard" sx={navBtnSx}>
               Dashboard
             </Button>
-            <Button
-              onClick={handleLogout}
-              sx={{
-                color: '#fff',
-                '&:hover': { backgroundColor: '#333' },
-              }}
-            >
-              Logout
-            </Button>
           </>
+        )}
+
+        {isProvider && (
+          <Button component={Link} to="/provider/applications" sx={navBtnSx}>
+            Provider
+          </Button>
+        )}
+
+        {isLoggedIn && (
+          <Button onClick={handleLogout} sx={navBtnSx}>
+            Logout
+          </Button>
         )}
       </Toolbar>
     </AppBar>
