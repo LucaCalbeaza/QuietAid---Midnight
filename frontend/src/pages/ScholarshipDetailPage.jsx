@@ -14,12 +14,14 @@ import {
 import axiosInstance from '../utils/axiosInstance';
 import { EVERGREEN_TITLE } from '../services/evergreenRules';
 
-const ScholarshipDetailPage = ({ isLoggedIn }) => {
+const ScholarshipDetailPage = ({ isLoggedIn, role }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [scholarship, setScholarship] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const isStudent = isLoggedIn && role === 'student';
+  const isProvider = isLoggedIn && role === 'provider';
 
   useEffect(() => {
     const load = async () => {
@@ -112,10 +114,9 @@ const ScholarshipDetailPage = ({ isLoggedIn }) => {
       </Typography>
 
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        {midnightOk && (
+        {midnightOk && isStudent && (
           <Button
             variant="contained"
-            disabled={!isLoggedIn}
             onClick={() => navigate(`/scholarships/${id}/apply-private`)}
           >
             Apply Privately with Midnight
@@ -126,9 +127,25 @@ const ScholarshipDetailPage = ({ isLoggedIn }) => {
             Login to apply privately
           </Button>
         )}
-        <Button component={RouterLink} to="/private-matches" variant="outlined">
-          Back to private matches
-        </Button>
+        {isProvider && midnightOk && (
+          <Alert severity="info" sx={{ width: '100%' }}>
+            Provider accounts review applications; they cannot apply privately.
+          </Alert>
+        )}
+        {isStudent && (
+          <Button component={RouterLink} to="/private-matches" variant="outlined">
+            Back to private matches
+          </Button>
+        )}
+        {isProvider && (
+          <Button
+            component={RouterLink}
+            to="/provider/applications"
+            variant="outlined"
+          >
+            Back to provider applications
+          </Button>
+        )}
       </Box>
     </Container>
   );
