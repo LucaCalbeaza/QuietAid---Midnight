@@ -8,13 +8,29 @@ scholarships they qualify for **without disclosing** sensitive details like
 household income, disability status, first-generation status, or housing
 situation.
 
-The baseline finder (browse, auth, profile, recommendations, sentiment) runs
-today as a classic web app against MongoDB, seeded with fictional demo data.
-Midnight development skills and tooling live in-repo under `.agents/skills/` for
-the next phase.
+QuietAid upgrades a traditional scholarship finder with Midnight privacy.
+Students find scholarships using private eligibility information, then prove they
+satisfy scholarship requirements without revealing the underlying sensitive
+circumstances. Providers initially receive a pseudonymous verified applicant,
+and students decide when and what identity information to disclose.
 
 > Reviewers: start here for what the app does, how to run it locally, and where
-> the code lives.
+> the code lives. Privacy architecture: [`docs/PRIVACY_MODEL.md`](docs/PRIVACY_MODEL.md).
+> Implementation progress: [`docs/QUIETAID_IMPLEMENTATION_PLAN.md`](docs/QUIETAID_IMPLEMENTATION_PLAN.md).
+
+---
+
+## Before vs after
+
+| BEFORE (legacy) | AFTER (QuietAid privacy path) |
+|-----------------|-------------------------------|
+| Sensitive profile stored in MongoDB | Private eligibility profile in **browser memory only** |
+| Server-side recommendation scoring | **Local** private matcher (no private profile POST) |
+| Cleartext eligibility assumptions | **Midnight** ZK proof of public rules vs private witnesses |
+| Traditional identity on applications | Pseudonymous application + selective disclosure |
+
+Legacy cleartext profile and `GET /api/scholarships/recommendations` remain for
+demo contrast; they are marked **LEGACY** and are not the QuietAid apply path.
 
 ---
 
@@ -22,15 +38,9 @@ the next phase.
 
 Scholarship matching needs sensitive profile fields (GPA, household income, U.S.
 state, enrollment status, first-generation status, disability status, housing
-insecurity). Today that data lives in a conventional backend. On Midnight, the
-direction is to prove eligibility **without** exposing those attributes in the
-clear — selective disclosure and zero-knowledge proofs instead of sending a full
-profile to a server.
-
-**Current status:** the scholarship finder runs as a classic web app. It is
-seeded with six fictional U.S. demo scholarships (see below). **Midnight Compact
-contracts and wallet integration are not implemented yet** — `.agents/skills/`
-holds the Midnight development skills for that work.
+insecurity). QuietAid proves eligibility **without** exposing those attributes
+to providers — selective disclosure and zero-knowledge proofs instead of sending
+a full private profile to the scholarship provider.
 
 ---
 
@@ -56,7 +66,7 @@ holds the Midnight development skills for that work.
 | Backend | Node.js, Express 5, Mongoose, JWT (`express-jwt`), bcrypt, CORS, Helmet |
 | Database | MongoDB + deterministic demo seed (`scholarship-finder-backend/seed/`) |
 | Legacy scraping / NLP | Cheerio, Puppeteer, `vader-sentiment` (scraper optional) |
-| Midnight (planned, not yet implemented) | Compact contracts, Midnight.js / wallet tooling (skills under `.agents/skills/`) |
+| Midnight | Compact eligibility contract in `midnight-eligibility/`; skills under `.agents/skills/` |
 
 ---
 
@@ -79,19 +89,26 @@ holds the Midnight development skills for that work.
 │   ├── scrapers/                      # Optional legacy scraper
 │   ├── middleware/                    # JWT auth, validation
 │   └── server.js
+├── midnight-eligibility/              # Compact V1 eligibility + tests (Node ≥ 22)
 ├── docs/
 │   ├── SETUP.md                       # QuietAid setup guide
+│   ├── QUIETAID_IMPLEMENTATION_PLAN.md
+│   ├── PRIVACY_MODEL.md
+│   ├── MIDNIGHT_INTEGRATION.md
+│   ├── DEMO_FLOW.md
 │   └── ORIGINAL_APP_README.md         # Upstream scholarship-finder notes
-└── .agents/skills/                    # Midnight Network agent skills (next phase)
+└── .agents/skills/                    # Midnight Network agent skills
 ```
 
 ---
 
 ## Prerequisites
 
-- **Node.js** 18+ (LTS recommended)
+- **Node.js** 18+ for the classic frontend/backend path (LTS recommended)
+- **Node.js ≥ 22** for Midnight (`midnight-eligibility/`) — required by Midnight wallet SDK
 - **npm**
 - **MongoDB** running locally (or a connection string you control)
+- **Docker** + Compact compiler for local Midnight prove/deploy (see `.agents/skills/midnight-environment-setup`)
 
 ```bash
 # macOS (Homebrew) example
@@ -196,12 +213,37 @@ npm start
 
 App: [http://localhost:3000](http://localhost:3000) (CRA may open this automatically).
 
-### 6. Try the product
+### 6. Midnight local prover (required for Apply Privately)
 
-1. Open the app → you land on **Scholarships** (the six demo records).
-2. **Register** with a full profile (education, location, etc.).
-3. Open **Recommendations** for profile-matched results.
-4. Use **Dashboard / Edit profile** to adjust matching inputs.
+In a third terminal (Node ≥ 22):
+
+```bash
+cd midnight-eligibility
+npm install
+npm run prove-server
+# listens on http://127.0.0.1:31337 — real Compact circuit execution
+```
+
+Optional provider demo account:
+
+```bash
+cd scholarship-finder-backend
+npm run seed:provider
+# default: provider@quietaid.demo / Provider1!demo
+```
+
+### 7. Try the product
+
+**QuietAid privacy path (preferred demo):** see [`docs/DEMO_FLOW.md`](docs/DEMO_FLOW.md).
+
+1. Open the app → **Scholarships** (six demo records).
+2. **Register** / login as a student.
+3. Open **Private Profile** → enter eligibility in browser memory.
+4. **Private Matches** → local scoring (not ZK).
+5. Open Evergreen → **Apply Privately** when Midnight is configured.
+6. Provider dashboard → verified + identity hidden → selective disclosure.
+
+**Legacy path (before Midnight):** Recommendations still call the server-side matcher against the Mongo profile.
 
 ---
 
@@ -212,7 +254,9 @@ App: [http://localhost:3000](http://localhost:3000) (CRA may open this automatic
 | `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout` | Auth (HTTP-only cookie JWT) |
 | `GET /api/users/me`, user update routes | Profile |
 | `GET /api/scholarships` | Browse / list |
-| `GET /api/scholarships/recommendations` | Auth-required matching |
+| `GET /api/scholarships/recommendations` | **LEGACY** cleartext matching |
+| `/api/private-applications` | Pseudonymous applications (student) |
+| `/api/provider` | Provider-safe application views + disclosure request |
 | `/api/sentiment` | Sentiment helpers |
 
 CORS allows `CLIENT_URL` (default `http://localhost:3000`) with credentials.
@@ -281,15 +325,13 @@ npm test
 - **The QuietAid demo scholarships are fictional.** The six seeded records are
   illustrative examples for the demo, not real opportunities, and contain no real
   student information.
-- **The Midnight privacy layer (Compact contracts, wallet integration, selective
-  disclosure) is the hackathon direction and is not yet implemented.** The Quick
-  start above runs the classic web-app path.
-- The legacy scraper depends on external sites; structure or availability can
-  change. It is optional and not part of the QuietAid demo path.
-- Matching logic lives in `scholarship-finder-backend/routes/recommendations.js`
-  (server-side scores against stored profile fields).
-- QuietAid setup guide: [`docs/SETUP.md`](docs/SETUP.md). Original upstream setup
-  notes: [`docs/ORIGINAL_APP_README.md`](docs/ORIGINAL_APP_README.md).
+- A ZK proof does **not** make self-entered data true — mock credentials simulate
+  issuer trust. See [`docs/PRIVACY_MODEL.md`](docs/PRIVACY_MODEL.md).
+- Legacy server matching: `scholarship-finder-backend/routes/recommendations.js`.
+- QuietAid docs: [`docs/SETUP.md`](docs/SETUP.md),
+  [`docs/QUIETAID_IMPLEMENTATION_PLAN.md`](docs/QUIETAID_IMPLEMENTATION_PLAN.md),
+  [`docs/MIDNIGHT_INTEGRATION.md`](docs/MIDNIGHT_INTEGRATION.md),
+  [`docs/DEMO_FLOW.md`](docs/DEMO_FLOW.md).
 
 ---
 

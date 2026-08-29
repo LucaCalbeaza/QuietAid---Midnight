@@ -1,0 +1,43 @@
+/**
+ * QuietAid V1 eligibility verification — Evergreen Full-Time Scholars Fund rules.
+ *
+ * PRIVATE witnesses: enrolled, householdIncome
+ * PUBLIC sealed rules (set at deploy): requiresEnrollment, maximumIncome
+ *
+ * Rule integrity: students cannot change maximumIncome / requiresEnrollment —
+ * those are sealed at construction for this contract instance.
+ *
+ * Ledger only records that a verification succeeded (counter), never private values.
+ */
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+// Income bound: USD whole dollars, 0 .. 1_000_000 inclusive upper for witness/rules
+export sealed ledger requiresEnrollment: Boolean;
+export sealed ledger maximumIncome: Uint<0..1000001>;
+
+// Public count of successful verifications — no private attributes
+export ledger verifiedCount: Counter;
+
+witness enrolled(): Boolean;
+witness householdIncome(): Uint<0..1000001>;
+
+constructor(reqEnroll: Boolean, maxInc: Uint<0..1000001>) {
+  requiresEnrollment = disclose(reqEnroll);
+  maximumIncome = disclose(maxInc);
+}
+
+/**
+ * Prove private witnesses satisfy the sealed public scholarship rules.
+ * Does not disclose enrolled or householdIncome to the ledger.
+ */
+export circuit verifyEligibility(): [] {
+  const isEnrolled = enrolled();
+  const income = householdIncome();
+
+  assert(!requiresEnrollment || isEnrolled, "enrollment requirement not met");
+  assert(income <= maximumIncome, "income exceeds scholarship maximum");
+
+  verifiedCount.increment(1);
+}

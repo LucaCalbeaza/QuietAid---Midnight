@@ -4,6 +4,13 @@ const Scholarship = require('../models/Scholarship');
 const User = require('../models/user');
 const isAuth = require('../middleware/auth');
 
+/**
+ * LEGACY — QuietAid cleartext recommendation path.
+ * Scores scholarships against the MongoDB user profile (GPA, income, location, etc.).
+ * The QuietAid privacy path uses client-side privateMatcher against an in-memory
+ * private eligibility profile and must NOT POST that profile here.
+ */
+
 const indianStates = [
   'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa',
   'Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala',

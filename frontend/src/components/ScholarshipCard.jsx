@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -66,7 +67,9 @@ const ScholarshipCard = (props) => {
         {showScore && typeof matchPercentage === 'number' && (
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="primary" gutterBottom>
-              Match Score: {matchPercentage}%
+              {props.privateMatch
+                ? `${matchPercentage}% private match`
+                : `Match Score: ${matchPercentage}%`}
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -76,7 +79,26 @@ const ScholarshipCard = (props) => {
                 borderRadius: 4,
               }}
             />
+            {props.privateMatch && (
+              <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
+                Local advisory match — not a Midnight proof
+              </Typography>
+            )}
           </Box>
+        )}
+
+        {data.midnightEnabled && (
+          <Typography variant="body2" color="success.main" sx={{ mb: 1 }}>
+            Private eligibility supported · Midnight verification available
+          </Typography>
+        )}
+
+        {props.privateMatch && typeof data.localEligible === 'boolean' && (
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            {data.localEligible
+              ? 'Appears eligible (local check)'
+              : 'May not satisfy all private rules (local check)'}
+          </Typography>
         )}
 
         {amount && (
@@ -123,14 +145,16 @@ const ScholarshipCard = (props) => {
         <Button
           size="small"
           color="primary"
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
+          component={props.detailLink ? RouterLink : 'a'}
+          to={props.detailLink || undefined}
+          href={!props.detailLink ? link : undefined}
+          target={!props.detailLink ? '_blank' : undefined}
+          rel={!props.detailLink ? 'noopener noreferrer' : undefined}
         >
-          Learn More
+          {props.detailLink ? 'View Details' : 'Learn More'}
         </Button>
 
-        {applyLink && (
+        {applyLink && !props.detailLink && (
           <Button
             size="small"
             color="secondary"
@@ -178,6 +202,8 @@ ScholarshipCard.propTypes = {
   sentiment:       PropTypes.object,
   matchPercentage: PropTypes.number,
   showScore:       PropTypes.bool,
+  privateMatch:    PropTypes.bool,
+  detailLink:      PropTypes.string,
   sx:              PropTypes.object,
 };
 
@@ -193,6 +219,8 @@ ScholarshipCard.defaultProps = {
   sentiment:       null,
   matchPercentage: null,
   showScore:       false,
+  privateMatch:    false,
+  detailLink:      '',
   sx:              {},
 };
 
