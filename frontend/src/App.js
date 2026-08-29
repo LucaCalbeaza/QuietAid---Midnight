@@ -86,13 +86,23 @@ function App() {
   return (
     <PrivateEligibilityProvider>
       <Router>
-        <NavBar
-          isLoggedIn={isLoggedIn}
-          role={role}
-          onLogout={handleLogout}
-        />
+        <div className="app-shell">
+          <header className="app-header">
+            <h1>QuietAid</h1>
+            <span className="app-header-tagline">
+              Private scholarship matching
+            </span>
+          </header>
 
-        <Routes>
+          <NavBar
+            isLoggedIn={isLoggedIn}
+            role={role}
+            onLogout={handleLogout}
+          />
+
+          <main className="app-main">
+            <div className="app-main-inner">
+              <Routes>
           <Route
             path="/"
             element={
@@ -210,7 +220,14 @@ function App() {
             }
           />
           <Route path="*" element={<div className="app-status">404 - Page Not Found</div>} />
-        </Routes>
+              </Routes>
+            </div>
+          </main>
+
+          <footer className="app-footer">
+            QuietAid · privacy-preserving scholarship matching
+          </footer>
+        </div>
       </Router>
     </PrivateEligibilityProvider>
   );

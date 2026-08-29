@@ -81,7 +81,7 @@ const UserDashboard = () => {
   } = userData;
 
   return (
-    <div style={{ padding: 24 }}>
+    <div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Card sx={{ padding: 3 }}>

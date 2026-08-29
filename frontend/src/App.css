@@ -1,7 +1,4 @@
 .App {
-  text-align: center;
-  min-height: 100vh;
-  padding: 24px;
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -26,7 +23,7 @@
   align-items: center;
   justify-content: flex-start;
   font-size: calc(12px + 1vmin);
-  padding: 40px 24px;
+  padding: 0;
   font-family: var(--font-serif);
 }
 

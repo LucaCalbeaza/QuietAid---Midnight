@@ -89,10 +89,12 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
       {apps.length === 0 ? (
         <Typography>No private applications yet.</Typography>
       ) : (
-        apps.map((app) => (
+        <div className="card-grid">
+        {apps.map((app) => (
           <Box
             key={app.publicApplicationId}
-            sx={{ border: '1px solid', borderColor: 'divider', p: 2, mb: 2 }}
+            className="app-list-card"
+            sx={{ border: 'none', p: 0, mb: 0 }}
           >
             <Typography variant="h6">{app.publicApplicationId}</Typography>
             <Typography>Pseudonym: {app.pseudonym}</Typography>
@@ -150,7 +152,8 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
               Details
             </Button>
           </Box>
-        ))
+        ))}
+        </div>
       )}
     </Container>
   );

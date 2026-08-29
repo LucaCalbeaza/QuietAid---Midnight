@@ -1,14 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Button, Box } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-
-const navBtnSx = {
-  color: '#F8FAFC',
-  '&:hover': {
-    backgroundColor: 'rgba(201, 162, 39, 0.12)',
-    color: '#E0B93A',
-  },
-};
+import { NavLink, useNavigate } from 'react-router-dom';
 
 /**
  * Role-aware navigation.
@@ -24,66 +15,113 @@ const NavBar = ({ isLoggedIn, role, onLogout }) => {
     navigate('/login');
   };
 
+  const profileName = !isLoggedIn
+    ? 'Guest'
+    : isProvider
+      ? 'Provider account'
+      : 'Student account';
+
+  const profileRole = !isLoggedIn
+    ? 'Not signed in'
+    : role === 'provider'
+      ? 'Scholarship provider'
+      : 'Applicant';
+
   return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: '#162032',
-        color: '#F8FAFC',
-      }}
-    >
-      <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <Button
-            component={Link}
-            to="/scholarships"
-            sx={{ ...navBtnSx, fontWeight: 'bold' }}
-          >
-            Home
-          </Button>
-        </Box>
+    <aside className="app-sidebar">
+      <div className="sidebar-profile">
+        <p className="sidebar-profile-label">Profile</p>
+        <p className="sidebar-profile-name">{profileName}</p>
+        <p className="sidebar-profile-role">{profileRole}</p>
+      </div>
+
+      <nav className="sidebar-nav" aria-label="Main">
+        <NavLink
+          to="/scholarships"
+          end
+          className={({ isActive }) =>
+            isActive ? 'nav-link nav-link-active' : 'nav-link'
+          }
+        >
+          Home
+        </NavLink>
 
         {!isLoggedIn && (
           <>
-            <Button component={Link} to="/login" sx={navBtnSx}>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               Login
-            </Button>
-            <Button component={Link} to="/register" sx={navBtnSx}>
+            </NavLink>
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               Register
-            </Button>
+            </NavLink>
           </>
         )}
 
         {isStudent && (
           <>
-            <Button component={Link} to="/private-profile" sx={navBtnSx}>
+            <NavLink
+              to="/private-profile"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               Private Profile
-            </Button>
-            <Button component={Link} to="/private-matches" sx={navBtnSx}>
+            </NavLink>
+            <NavLink
+              to="/private-matches"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               Private Matches
-            </Button>
-            <Button component={Link} to="/my-applications" sx={navBtnSx}>
+            </NavLink>
+            <NavLink
+              to="/my-applications"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               My Applications
-            </Button>
-            <Button component={Link} to="/dashboard" sx={navBtnSx}>
+            </NavLink>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive ? 'nav-link nav-link-active' : 'nav-link'
+              }
+            >
               Dashboard
-            </Button>
+            </NavLink>
           </>
         )}
 
         {isProvider && (
-          <Button component={Link} to="/provider/applications" sx={navBtnSx}>
+          <NavLink
+            to="/provider/applications"
+            className={({ isActive }) =>
+              isActive ? 'nav-link nav-link-active' : 'nav-link'
+            }
+          >
             Provider
-          </Button>
+          </NavLink>
         )}
+      </nav>
 
-        {isLoggedIn && (
-          <Button onClick={handleLogout} sx={navBtnSx}>
-            Logout
-          </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+      {isLoggedIn && (
+        <button type="button" className="nav-logout" onClick={handleLogout}>
+          Logout
+        </button>
+      )}
+    </aside>
   );
 };
 
