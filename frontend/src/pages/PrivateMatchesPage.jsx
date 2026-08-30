@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Alert,
-  Box,
   Button,
   CircularProgress,
   Container,
@@ -88,13 +87,7 @@ const PrivateMatchesPage = ({ isLoggedIn }) => {
       {items.length === 0 ? (
         <Typography>No scholarships available.</Typography>
       ) : (
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          }}
-        >
+        <div className="card-grid">
           {items.map((sch) => (
             <ScholarshipCard
               key={sch._id}
@@ -104,7 +97,7 @@ const PrivateMatchesPage = ({ isLoggedIn }) => {
               detailLink={`/scholarships/${sch._id}`}
             />
           ))}
-        </Box>
+        </div>
       )}
     </Container>
   );

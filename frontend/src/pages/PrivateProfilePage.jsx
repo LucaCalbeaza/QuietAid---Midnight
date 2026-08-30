@@ -83,7 +83,7 @@ const PrivateProfilePage = () => {
         not saved to the scholarship provider or QuietAid servers. They are used
         for local matching and Midnight proof generation. Providers receive
         verification results rather than raw values. Refreshing the page clears
-        this profile (hackathon MVP — in-memory only).
+        this profile.
       </Alert>
 
       {isConfigured && (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, CircularProgress, Alert } from '@mui/material';
+import { Typography, CircularProgress, Alert } from '@mui/material';
 import axiosInstance from '../utils/axiosInstance';
 import ScholarshipCard from './ScholarshipCard';
 
@@ -28,39 +28,34 @@ const ScholarshipList = () => {
 
   if (loading) {
     return (
-      <Grid container justifyContent="center" sx={{ mt: 4 }}>
+      <div className="app-status">
         <CircularProgress />
-      </Grid>
+      </div>
     );
   }
 
   if (errorMsg) {
     return (
-      <Grid container justifyContent="center" sx={{ mt: 4 }}>
-        <Alert severity="error">{errorMsg}</Alert>
-      </Grid>
+      <Alert severity="error">{errorMsg}</Alert>
     );
   }
 
   if (!scholarships.length) {
     return (
-      <Grid container justifyContent="center" sx={{ mt: 4 }}>
-        <Typography variant="h6">No scholarships found.</Typography>
-      </Grid>
+      <Typography variant="h6">No scholarships found.</Typography>
     );
   }
 
   return (
-    <Grid container spacing={3} sx={{ p: 3 }}>
+    <div className="card-grid">
       {scholarships.map((scholarship) => (
-        <Grid item xs={12} sm={6} md={4} key={scholarship._id}>
-          <ScholarshipCard
-            scholarship={scholarship}
-            detailLink={`/scholarships/${scholarship._id}`}
-          />
-        </Grid>
+        <ScholarshipCard
+          key={scholarship._id}
+          scholarship={scholarship}
+          detailLink={`/scholarships/${scholarship._id}`}
+        />
       ))}
-    </Grid>
+    </div>
   );
 };
 

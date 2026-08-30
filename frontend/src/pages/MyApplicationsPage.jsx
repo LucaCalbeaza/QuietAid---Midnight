@@ -89,11 +89,12 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
       {apps.length === 0 ? (
         <Typography>No private applications yet.</Typography>
       ) : (
-        apps.map((app) => (
+        <div className="card-grid">
+        {apps.map((app) => (
           <Box
             key={app.publicApplicationId}
-            sx={{ border: '1px solid', borderColor: 'divider', p: 2, mb: 2 }}
-          >
+            className="app-list-card"
+            >
             <Typography variant="h6">{app.publicApplicationId}</Typography>
             <Typography>Pseudonym: {app.pseudonym}</Typography>
             <Typography>{app.scholarshipTitle}</Typography>
@@ -145,12 +146,13 @@ const MyApplicationsPage = ({ isLoggedIn }) => {
             <Button
               component={RouterLink}
               to={`/applications/${app.publicApplicationId}`}
-              sx={{ mt: 1 }}
+              sx={{ mt: 'auto', pt: 1 }}
             >
               Details
             </Button>
           </Box>
-        ))
+        ))}
+        </div>
       )}
     </Container>
   );

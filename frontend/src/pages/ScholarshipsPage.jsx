@@ -6,7 +6,7 @@ import ScholarshipList from '../components/ScholarshipList';
 const ScholarshipsPage = () => {
   return (
     <Container maxWidth="lg" sx={{ my: 4 }}>
-      <Box sx={{ mb: 3, textAlign: 'center' }}>
+      <Box sx={{ mb: 3 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Available Scholarships
         </Typography>

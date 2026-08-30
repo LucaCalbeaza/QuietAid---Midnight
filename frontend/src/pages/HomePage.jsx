@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   Container,
-  Grid,
   Typography,
   CircularProgress,
   Alert,
@@ -61,39 +60,22 @@ const HomePage = () => {
       <Typography variant="h4" gutterBottom>
         Latest Scholarships
       </Typography>
-      <Grid
-        container
-        spacing={3}
-        sx={{
-          margin: 0,
-          width: '100%',
-        }}
-      >
+      <div className="card-grid">
         {scholarships.map((scholarship) => (
-          <Grid
-            item
+          <ScholarshipCard
             key={scholarship._id}
-            xs={12}
-            sm={6}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <ScholarshipCard
-              title={scholarship.title}
-              description={scholarship.description}
-              amount={scholarship.amount}
-              deadline={scholarship.deadline}
-              eligibility={scholarship.eligibility}
-              link={scholarship.link}
-              applyLink={scholarship.applyLink}
-              sentiment={scholarship.sentiment}
-              sx={{ flexGrow: 1, width: '100%' }}
-            />
-          </Grid>
+            title={scholarship.title}
+            description={scholarship.description}
+            amount={scholarship.amount}
+            deadline={scholarship.deadline}
+            eligibility={scholarship.eligibility}
+            link={scholarship.link}
+            applyLink={scholarship.applyLink}
+            sentiment={scholarship.sentiment}
+            sx={{ flexGrow: 1, width: '100%' }}
+          />
         ))}
-      </Grid>
+      </div>
     </Container>
   );
 };

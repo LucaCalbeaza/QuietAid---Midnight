@@ -115,92 +115,101 @@ const ApplyPrivatePage = ({ isLoggedIn }) => {
   }
 
   return (
-    <Container maxWidth="sm" sx={{ my: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Apply Privately
-      </Typography>
-      <Typography gutterBottom>{scholarship?.title}</Typography>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: { xs: 3, sm: 6 },
+        px: 2,
+      }}
+    >
+      <Box className="form-container" sx={{ maxWidth: 620 }}>
+        <Typography variant="h4" gutterBottom>
+          Apply Privately
+        </Typography>
+        <Typography gutterBottom>{scholarship?.title}</Typography>
 
-      <Alert severity="info" sx={{ mb: 2 }}>
-        QuietAid will prove: enrollment requirement and financial eligibility
-        against public scholarship rules. The provider will <strong>not</strong>{' '}
-        receive household income, exact enrollment details, name, or email from
-        this step.
-      </Alert>
-
-      {proverUp === false && (
-        <Alert severity="warning" sx={{ mb: 2 }}>
-          Local Compact prover is not reachable. Start it with{' '}
-          <code>cd midnight-eligibility && npm run prove-server</code>
+        <Alert severity="info" sx={{ mb: 2 }}>
+          QuietAid will prove: enrollment requirement and financial eligibility
+          against public scholarship rules. The provider will <strong>not</strong>{' '}
+          receive household income, exact enrollment details, name, or email from
+          this step.
         </Alert>
-      )}
 
-      <WalletStatus />
+        {proverUp === false && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            Local Compact prover is not reachable. Start it with{' '}
+            <code>cd midnight-eligibility && npm run prove-server</code>
+          </Alert>
+        )}
 
-      <Typography variant="body2" sx={{ mb: 2 }}>
-        Session private profile ready:{' '}
-        {profile.enrollmentStatusCode === EnrollmentStatus.FULL_TIME
-          ? 'full-time enrollment set'
-          : 'enrollment set'}
-        ; income present:{' '}
-        {profile.householdIncome != null ? 'yes' : 'no'} (values not shown
-        here).
-      </Typography>
+        <WalletStatus />
 
-      <Stack spacing={2}>
-        <Typography>
-          Status: <strong>{STAGES[stage] || stage}</strong>
+        <Typography variant="body2" sx={{ mb: 2 }}>
+          Session private profile ready:{' '}
+          {profile.enrollmentStatusCode === EnrollmentStatus.FULL_TIME
+            ? 'full-time enrollment set'
+            : 'enrollment set'}
+          ; income present:{' '}
+          {profile.householdIncome != null ? 'yes' : 'no'} (values not shown
+          here).
         </Typography>
 
-        {error && (
-          <Alert severity="error">
-            {error}
-            <Box mt={1}>Your private application was not submitted as verified.</Box>
-          </Alert>
-        )}
+        <Stack spacing={2}>
+          <Typography>
+            Status: <strong>{STAGES[stage] || stage}</strong>
+          </Typography>
 
-        {stage === 'success' && appRecord && (
-          <Alert severity="success">
-            Private application submitted
-            <Box mt={1}>
-              Application: {appRecord.publicApplicationId}
-              <br />
-              Applicant: {appRecord.pseudonym}
-              <br />
-              Eligibility: Verified
-              <br />
-              Midnight: Proof/transaction valid
-              <br />
-              Identity: Not disclosed
-            </Box>
+          {error && (
+            <Alert severity="error">
+              {error}
+              <Box mt={1}>Your private application was not submitted as verified.</Box>
+            </Alert>
+          )}
+
+          {stage === 'success' && appRecord && (
+            <Alert severity="success">
+              Private application submitted
+              <Box mt={1}>
+                Application: {appRecord.publicApplicationId}
+                <br />
+                Applicant: {appRecord.pseudonym}
+                <br />
+                Eligibility: Verified
+                <br />
+                Midnight: Proof/transaction valid
+                <br />
+                Identity: Not disclosed
+              </Box>
+              <Button
+                sx={{ mt: 1 }}
+                component={RouterLink}
+                to={`/applications/${appRecord.publicApplicationId}`}
+              >
+                View Application
+              </Button>
+            </Alert>
+          )}
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
-              sx={{ mt: 1 }}
-              component={RouterLink}
-              to={`/applications/${appRecord.publicApplicationId}`}
+              variant="contained"
+              onClick={handleApply}
+              disabled={
+                stage === 'generating' ||
+                stage === 'verifying' ||
+                stage === 'preparing'
+              }
             >
-              View Application
+              Generate Midnight proof & apply
             </Button>
-          </Alert>
-        )}
-
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            variant="contained"
-            onClick={handleApply}
-            disabled={
-              stage === 'generating' ||
-              stage === 'verifying' ||
-              stage === 'preparing'
-            }
-          >
-            Generate Midnight proof & apply
-          </Button>
-          <Button component={RouterLink} to={`/scholarships/${id}`}>
-            Cancel
-          </Button>
-        </Box>
-      </Stack>
-    </Container>
+            <Button component={RouterLink} to={`/scholarships/${id}`}>
+              Cancel
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    </Box>
   );
 };
 

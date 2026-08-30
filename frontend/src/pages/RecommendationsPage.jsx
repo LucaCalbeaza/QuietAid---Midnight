@@ -102,17 +102,11 @@ const RecommendationsPage = ({ isLoggedIn }) => {
           No scholarships found matching your search.
         </Typography>
       ) : (
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          }}
-        >
+        <div className="card-grid">
           {filtered.map((sch) => (
             <ScholarshipCard key={sch._id} scholarship={sch} showScore={true} />
           ))}
-        </Box>
+        </div>
       )}
     </Container>
   );

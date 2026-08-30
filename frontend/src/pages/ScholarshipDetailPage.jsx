@@ -63,92 +63,102 @@ const ScholarshipDetailPage = ({ isLoggedIn, role }) => {
   const midnightOk = !!scholarship.midnightEnabled;
 
   return (
-    <Container maxWidth="md" sx={{ my: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        {scholarship.title}
-      </Typography>
-      {scholarship.provider && (
-        <Typography color="text.secondary" gutterBottom>
-          Provider: {scholarship.provider}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        py: { xs: 3, sm: 6 },
+        px: 2,
+      }}
+    >
+      <Box className="form-container" sx={{ maxWidth: 840 }}>
+        <Typography variant="h4" gutterBottom>
+          {scholarship.title}
         </Typography>
-      )}
-      <Typography sx={{ mb: 1 }}>
-        <strong>Award:</strong> {scholarship.amount || '—'}
-      </Typography>
-      <Typography sx={{ mb: 2 }}>
-        <strong>Deadline:</strong> {scholarship.deadline || '—'}
-      </Typography>
-      <Typography paragraph>{scholarship.description}</Typography>
-
-      <Typography variant="h6" gutterBottom>
-        Public eligibility requirements
-      </Typography>
-      <List dense>
-        {(scholarship.publicRequirements || []).map((r) => (
-          <ListItem key={r}>
-            <ListItemText primary={r} />
-          </ListItem>
-        ))}
-      </List>
-
-      <Box sx={{ my: 2 }}>
-        {midnightOk ? (
-          <Alert severity="success" sx={{ mb: 2 }}>
-            Private verification supported. Midnight verification available
-            {scholarship.title === EVERGREEN_TITLE
-              ? ' (V1: enrollment + income).'
-              : '.'}
-          </Alert>
-        ) : (
-          <Alert severity="info" sx={{ mb: 2 }}>
-            Midnight private apply is not enabled for this scholarship yet.
-            Local private matching still works.
-          </Alert>
+        {scholarship.provider && (
+          <Typography color="text.secondary" gutterBottom>
+            Provider: {scholarship.provider}
+          </Typography>
         )}
+        <Typography sx={{ mb: 1 }}>
+          <strong>Award:</strong> {scholarship.amount || '—'}
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          <strong>Deadline:</strong> {scholarship.deadline || '—'}
+        </Typography>
+        <Typography paragraph>{scholarship.description}</Typography>
+
+        <Typography variant="h6" gutterBottom>
+          Public eligibility requirements
+        </Typography>
+        <List dense>
+          {(scholarship.publicRequirements || []).map((r) => (
+            <ListItem key={r}>
+              <ListItemText primary={r} />
+            </ListItem>
+          ))}
+        </List>
+
+        <Box sx={{ my: 2 }}>
+          {midnightOk ? (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              Private verification supported. Midnight verification available
+              {scholarship.title === EVERGREEN_TITLE
+                ? ' (V1: enrollment + income).'
+                : '.'}
+            </Alert>
+          ) : (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              Midnight private apply is not enabled for this scholarship yet.
+              Local private matching still works.
+            </Alert>
+          )}
+        </Box>
+
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Public rules (not your private values): enrollment=
+          {pe.enrollmentStatus || 'any'}; max household income=
+          {pe.maxHouseholdIncome ?? 'n/a'}; min GPA={pe.minGPA ?? 'n/a'}
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          {midnightOk && isStudent && (
+            <Button
+              variant="contained"
+              onClick={() => navigate(`/scholarships/${id}/apply-private`)}
+            >
+              Apply Privately with Midnight
+            </Button>
+          )}
+          {!isLoggedIn && midnightOk && (
+            <Button component={RouterLink} to="/login">
+              Login to apply privately
+            </Button>
+          )}
+          {isProvider && midnightOk && (
+            <Alert severity="info" sx={{ width: '100%' }}>
+              Provider accounts review applications; they cannot apply privately.
+            </Alert>
+          )}
+          {isStudent && (
+            <Button component={RouterLink} to="/private-matches" variant="outlined">
+              Back to private matches
+            </Button>
+          )}
+          {isProvider && (
+            <Button
+              component={RouterLink}
+              to="/provider/applications"
+              variant="outlined"
+            >
+              Back to provider applications
+            </Button>
+          )}
+        </Box>
       </Box>
-
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Public rules (not your private values): enrollment=
-        {pe.enrollmentStatus || 'any'}; max household income=
-        {pe.maxHouseholdIncome ?? 'n/a'}; min GPA={pe.minGPA ?? 'n/a'}
-      </Typography>
-
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        {midnightOk && isStudent && (
-          <Button
-            variant="contained"
-            onClick={() => navigate(`/scholarships/${id}/apply-private`)}
-          >
-            Apply Privately with Midnight
-          </Button>
-        )}
-        {!isLoggedIn && midnightOk && (
-          <Button component={RouterLink} to="/login">
-            Login to apply privately
-          </Button>
-        )}
-        {isProvider && midnightOk && (
-          <Alert severity="info" sx={{ width: '100%' }}>
-            Provider accounts review applications; they cannot apply privately.
-          </Alert>
-        )}
-        {isStudent && (
-          <Button component={RouterLink} to="/private-matches" variant="outlined">
-            Back to private matches
-          </Button>
-        )}
-        {isProvider && (
-          <Button
-            component={RouterLink}
-            to="/provider/applications"
-            variant="outlined"
-          >
-            Back to provider applications
-          </Button>
-        )}
-      </Box>
-    </Container>
+    </Box>
   );
 };
 
 export default ScholarshipDetailPage;
+
