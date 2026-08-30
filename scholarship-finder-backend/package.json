@@ -5,6 +5,7 @@
   "scripts": {
     "test": "node --test tests/**/*.test.js",
     "seed:provider": "node seed/seedProviderUser.js",
+    "reset:accounts": "node seed/resetDemoAccounts.js",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed": "node seed/seedDemoScholarships.js",
